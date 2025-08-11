@@ -1,4 +1,4 @@
-export interface Todo1{
-   id?:string;
-   task:string
+export interface Todo1 {
+  id?: string;
+  task: string;
 }

@@ -6,7 +6,7 @@ import {
   collectionData,
   doc,
   deleteDoc,
-  updateDoc
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Todo1 } from '../models/todo.model';
@@ -24,17 +24,33 @@ export class TodoService {
     >;
   }
 
-  addTodo(task: string): Promise<void> {
-    return addDoc(this.todoCollection, { task }).then(() => { });
+  async addTodo(task: string): Promise<void> {
+    try {
+      await addDoc(this.todoCollection, { task });
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error adding todo');
+    }
+    return;
   }
 
-  deleteTodo(id: string): Promise<void> {
-    const todoDoc = doc(this.firestore, 'todos', id);
-    return deleteDoc(todoDoc);
+  async deleteTodo(id: string): Promise<void> {
+    try {
+      const todoDoc = doc(this.firestore, 'todos', id);
+      await deleteDoc(todoDoc);
+    } catch (error) {
+      console.error('Error Deleting Todo', error);
+      throw new Error('Error deleting todo');
+    }
   }
 
-  updateTodo(id: string, task: string): Promise<void> {
-    const todoDoc = doc(this.firestore, 'todos', id);
-    return updateDoc(todoDoc, { task }).then(() => { });
+  async updateTodo(id: string, task: string): Promise<void> {
+    try {
+      const todoDoc = doc(this.firestore, 'todos', id);
+      await updateDoc(todoDoc, { task });
+    } catch (error) {
+      console.error('Error Updating Todo', error);
+      throw new Error('Error update todo');
+    }
   }
 }

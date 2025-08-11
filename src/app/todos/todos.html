@@ -1,0 +1,38 @@
+<div class="container py-4">
+  <h2>Anguler 19 + Firebase Todo App</h2>
+  <form [formGroup]="todoFrom" (ngSubmit)="onSubmit()">
+    <input
+      class="form-control"
+      type="text"
+      formControlName="task"
+      placeholder="Enter a task"
+      [class.is-invalid]="
+        todoFrom.get('task')?.invalid && todoFrom.get('task')?.touched
+      "
+    />
+
+    <div class="text-danger">
+      @if(todoFrom.get('task')?.errors?.['required'] &&
+      todoFrom.get('task')?.touched){ Class is required }
+    </div>
+
+    <div class="text-danger">
+      @if(todoFrom.get('task')?.errors?.['minlength'] &&
+      todoFrom.get('task')?.touched){ Class is too short }
+    </div>
+
+    <button
+      [disabled]="todoFrom.invalid"
+      type="submit"
+      class="btn btn-primary mt-3"
+    >
+      Add
+    </button>
+  </form>
+  <div>
+    @for(todo of todos(); track todo.id){
+      <p>{{todo.id}}</p>
+      <p>{{todo.task}}</p>
+    }
+  </div>
+</div>
